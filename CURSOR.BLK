@@ -1,0 +1,19 @@
+Procedure HideCursor;
+Var
+   Regs : Registers;
+Begin
+     Regs.AH := $01;
+     Regs.CH := $20;
+     Regs.CL := $20;
+     Intr($10, Regs);
+End;
+
+Procedure ShowCursor;
+Var
+   Regs : Registers;
+Begin
+     Regs.AH := $01;
+     Regs.CH := $06;
+     Regs.CL := $07;
+     Intr($10, Regs);
+End;
