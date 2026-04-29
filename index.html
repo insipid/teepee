@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+     body { background: #000; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; }
+     #screen { display: block; }
+
+     @font-face {
+       font-family: 'Perfect DOS VGA 437';
+       src: url('MorePerfectDOSVGA.ttf') format('truetype');
+     }
+
+     #screen div {
+       font-family: 'Perfect DOS VGA 437', monospace;
+       line-height: 1;
+       letter-spacing: 0;
+     }
+
+     #fullscreen {
+       position: fixed;
+       bottom: 16px;
+       right: 16px;
+       width: 40px;
+       height: 40px;
+       padding: 8px;
+       background: rgba(255,255,255,0.15);
+       border: 1px solid rgba(255,255,255,0.25);
+       border-radius: 8px;
+       cursor: pointer;
+       z-index: 9999;
+       display: flex;
+       align-items: center;
+       justify-content: center;
+       box-sizing: border-box;
+       transition: background 0.2s;
+     }
+     #fullscreen:hover {
+       background: rgba(255,255,255,0.3);
+     }
+    </style>
+  </head>
+  <body>
+    <div id="screen">
+      <canvas></canvas>
+    </div>
+    <button id="fullscreen">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="17 3 21 3 21 7"/><polyline points="7 21 3 21 3 17"/><polyline points="7 3 3 3 3 7"/><polyline points="17 21 21 21 21 17"/>
+        <line x1="21" y1="3" x2="15" y2="9"/><line x1="3" y1="21" x2="9" y2="15"/><line x1="3" y1="3" x2="9" y2="9"/><line x1="21" y1="21" x2="15" y2="15"/>
+      </svg>
+    </button>
+    <script src="assets/libv86.js"></script>
+    <script>
+     const params = new URLSearchParams(window.location.search);
+
+     const vm = new V86({
+       screen: {
+         container: document.getElementById("screen"),
+         encoding: "cp437", // lol, memories
+         use_graphical_text: true,
+         scale: 1,
+         ansi: true,
+       },
+
+       bios: { url: "assets/seabios.bin" },
+       vga_bios: { url: "assets/vgabios.bin" },
+       wasm_path: "assets/v86.wasm",
+
+       fda: { url: "assets/images/teepee.img", async: false },
+
+       boot_order: 0x231,
+       autostart: true,
+       log_level: -1,
+     });
+
+     // https://en.wikipedia.org/wiki/VGA_text_mode#PC_common_text_modes
+     // mode 3: 80x25 -> 720x400
+     const SCREEN_WIDTH = 720;
+     const SCREEN_HEIGHT = 400;
+
+     function fitToViewport() {
+       vm.screen_set_scale(1, 1);
+       const sx = window.innerWidth  / SCREEN_WIDTH;
+       const sy = window.innerHeight / SCREEN_HEIGHT;
+       // grow until one side hits the edge; minimally & equally
+       const scale = Math.min(sx, sy)
+       vm.screen_set_scale(scale, scale);
+     }
+
+     vm.add_listener("screen-set-size", fitToViewport);
+     window.addEventListener("resize", fitToViewport);
+
+     document.getElementById("fullscreen")
+             .addEventListener("click", () =>
+               document.getElementById("screen").requestFullscreen()
+             );
+    </script>
+  </body>
+</html>
