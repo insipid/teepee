@@ -17,9 +17,15 @@
 
     <script>
      const params = new URLSearchParams(window.location.search);
+     const image_tag = (params.has("demo") && "demo") ||
+                       (params.has("edit") && "edit") ||
+                       (params.has("play") && "play") ||
+                       (params.has("run") && "run")   ||
+                       "demo";
 
      const vm = new TeePee({
        fda: { url: "assets/images/teepee.img", async: false },
+       fdb: { url: `assets/images/tag_${image_tag}.img`, async: false },
      });
 
      vm.add_listener("screen-set-size", vm.fitToViewport);

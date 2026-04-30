@@ -68,3 +68,41 @@ mcopy -i teepee.img ::/CENTI4.PAS - |
 
 echo -e "@echo off\r\nTPC CENTDEMO.PAS\r\nCENTDEMO" | mcopy -i teepee.img -D o - ::/AUTOEXEC.BAT
 ```
+
+Supercedingly-lastly, we use more images to hack-together the ability to change the behaviour from the browser. Specifically, query-string parameters can modify which image is mounted as the B: drive, and then we can switch execution based on the contents of that drive.
+
+We have certain "tags", for different behaviour: running the original game as-is (`RUN` or `PLAY`), editing the source file (`EDIT`), or running the (modified-source) game in "demo mode" (`DEMO`).
+
+Create the image files, using `dd`/`mformat` settings to minimise the image size (apparently 160kb is the minimal _reliable_ size for a FAT volume); creating a file named after the tag (e.g. `DEMO.TAG`) in the root:
+```shell
+for tag in run play edit demo; do
+  name=tag_${tag}
+  dd if=/dev/zero of=${name}.img bs=512 count=320
+  mformat -i ${name}.img -f 160 ::
+  echo -n "" | mcopy -i ${name}.img - ::${tag:u}.TAG
+done
+```
+
+Then we use the pre-baked `AUTOEXEC.BAT` to switch execution based on which image is mounted. Shortened sample, below:
+
+```shell
+IF EXIST B:EDIT.TAG GOTO EDIT
+IF EXIST B:DEMO.TAG GOTO DEMO
+GOTO DEMO
+
+:EDIT
+TURBO CENTI4.PAS
+GOTO END
+
+:DEMO
+TPC CENTDEMO.PAS
+CENTDEMO.EXE
+GOTO END
+
+:END
+```
+
+So we copy it in, and then we can use `?demo` and `?edit`, etc., in the URL:
+```shell
+mcopy -i $FINAL_IMAGE -D o TAGGED_AUTOEXEC.BAT ::/AUTOEXEC.BAT
+```
