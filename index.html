@@ -6,7 +6,7 @@
 
     <script src="assets/libv86.js"></script>
     <script src="assets/teepee.js"></script>
-    <script src="assets/help.js"></script>
+    <script src="assets/help.js" defer></script>
   </head>
 
   <body>
@@ -18,18 +18,20 @@
       <img src="assets/teepee.svg">
     </button>
 
-    <button id="help">?</button>
+    <button id="help" aria-label="Open keyboard shortcuts" title="Keyboard shortcuts (?)">?</button>
 
     <div id="help-panel" class="help-panel hidden">
       <div class="help-backdrop"></div>
       <div class="help-container">
         <div class="help-header">
           <h2>Keyboard Shortcuts</h2>
-          <button class="help-toggle-mode" title="Toggle view mode for help screen">
+          <button class="help-toggle-mode" type="button" title="Toggle view mode for help screen" aria-label="Toggle help view mode">
             <svg class="toggle-icon sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 2.5h7a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6v-11Zm-1.5 0H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h1.5v-11ZM1 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3Z" clip-rule="evenodd"/></svg>
             <svg class="toggle-icon popup-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1091 1000"><path d="M1091 0v636H818v364H0V364h273V0h818zM818 545h182V182H364v182h454v181zM91 909h636V545H91v364z"/></svg>
           </button>
-          <button class="help-close" title="Close help"><i class="fas fa-xmark"></i></button>
+          <button class="help-close" title="Close help">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"/></svg>
+          </button>
         </div>
 
         <div class="help-content">

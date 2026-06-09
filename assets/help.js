@@ -5,37 +5,34 @@ const HelpPanel = (() => {
   const toggleModeBtn = panel.querySelector(".help-toggle-mode");
   const helpBtn = document.getElementById("help");
 
+  const STORAGE_KEY = "teepee-help-mode";
+
   let isOpen = false;
-  let currentMode = "modal"; // "modal" or "sidepanel"
+  let currentMode = localStorage.getItem(STORAGE_KEY) || "modal";
 
   const toggle = () => {
     isOpen = !isOpen;
     panel.classList.toggle("hidden", !isOpen);
-    if (isOpen) {
-      document.addEventListener("keydown", handleKeydown);
-    } else {
-      document.removeEventListener("keydown", handleKeydown);
-    }
   };
 
   const toggleMode = () => {
     currentMode = currentMode === "modal" ? "sidepanel" : "modal";
     panel.classList.toggle("help-panel--modal", currentMode === "modal");
     panel.classList.toggle("help-panel--sidepanel", currentMode === "sidepanel");
+    localStorage.setItem(STORAGE_KEY, currentMode);
   };
 
   const handleKeydown = (e) => {
-    if (e.key === "?" || (e.shiftKey && e.key === "/")) {
+    if ((e.key === "?" || (e.shiftKey && e.key === "/")) ||
+        (e.key === "Escape" && isOpen)) {
       e.preventDefault();
-      toggle();
-    } else if (e.key === "Escape" && isOpen) {
-      e.preventDefault();
+      e.stopPropagation();
       toggle();
     }
   };
 
   const init = () => {
-    panel.classList.add("help-panel--modal");
+    panel.classList.add(`help-panel--${currentMode}`);
 
     helpBtn.addEventListener("click", toggle);
     closeBtn.addEventListener("click", toggle);
