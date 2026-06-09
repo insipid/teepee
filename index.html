@@ -2,10 +2,13 @@
 <html>
   <head>
     <link rel="stylesheet" href="assets/teepee.css">
-    <script src="assets/libv86.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css">
 
+    <script src="assets/libv86.js"></script>
     <script src="assets/teepee.js"></script>
+    <script src="assets/help.js" defer></script>
   </head>
+
   <body>
     <div id="screen">
       <canvas></canvas>
@@ -14,6 +17,99 @@
     <button id="fullscreen">
       <img src="assets/teepee.svg">
     </button>
+
+    <button id="help" aria-label="Open keyboard shortcuts" title="Keyboard shortcuts (?)">?</button>
+
+    <div id="help-panel" class="help-panel hidden">
+      <div class="help-backdrop"></div>
+      <div class="help-container">
+        <div class="help-header">
+          <h2>Keyboard Shortcuts</h2>
+          <button class="help-toggle-mode" type="button" title="Toggle view mode for help screen" aria-label="Toggle help view mode">
+            <svg class="toggle-icon sidebar-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M6 2.5h7a.5.5 0 0 1 .5.5v10a.5.5 0 0 1-.5.5H6v-11Zm-1.5 0H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h1.5v-11ZM1 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3Z" clip-rule="evenodd"/></svg>
+            <svg class="toggle-icon popup-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 1091 1000"><path d="M1091 0v636H818v364H0V364h273V0h818zM818 545h182V182H364v182h454v181zM91 909h636V545H91v364z"/></svg>
+          </button>
+          <button class="help-close" title="Close help">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M55.1 73.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L147.2 256 9.9 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192.5 301.3 329.9 438.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.8 256 375.1 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192.5 210.7 55.1 73.4z"/></svg>
+          </button>
+        </div>
+
+        <div class="help-content">
+          <div class="help-section">
+            <h3 class="section-title">Movement</h3>
+            <div class="help-row">
+              <p>Move with regular arrow keys, letters, or numpad.</p>
+            </div>
+            <div class="help-row">
+              <div class="keypad">
+                <div class="grid grid-letter-movement">
+                  <div class="grid-item"></div>
+                  <div class="grid-item"><span class="keycap">I</span><p>Up</p></div>
+                  <div class="grid-item"><span class="keycap">O</span><p>Drop Pod</p></div>
+                  <div class="grid-item"><span class="keycap">J</span><p>Left</p></div>
+                  <div class="grid-item"><span class="keycap">K</span><p>Stop</p></div>
+                  <div class="grid-item"><span class="keycap">L</span><p>Right</p></div>
+                  <div class="grid-item"></div>
+                  <div class="grid-item"><span class="keycap">,</span><p>Down</p></div>
+                </div>
+              </div>
+              <div class="keypad">
+                <div class="grid grid-numpad-movement">
+                  <div class="grid-item"><span class="keycap">7</span><p>Fire</p></div>
+                  <div class="grid-item"><span class="keycap">8</span><p>Up</p></div>
+                  <div class="grid-item"></div>
+                  <div class="grid-item"><span class="keycap">4</span><p>Left</p></div>
+                  <div class="grid-item"><span class="keycap">5</span><p>Stop</p></div>
+                  <div class="grid-item"><span class="keycap">6</span><p>Right</p></div>
+                  <div class="grid-item"></div>
+                  <div class="grid-item"><span class="keycap">2</span><p>Down</p></div>
+                  <div class="grid-item"><span class="keycap">3</span><p>Fire</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="help-row">
+            <div class="help-section">
+              <h3 class="section-title">Game Control</h3>
+              <div class="shortcuts-list">
+                <div class="shortcut"><span class="keycap">Z</span><p>Fire shot</p></div>
+                <div class="shortcut"><span class="keycap">A</span><p>Toggle auto-fire</p></div>
+                <div class="shortcut"><span class="keycap">P</span><p>Pause</p></div>
+                <div class="shortcut"><span class="keycap">Esc</span><p>Restart</p></div>
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">X</span></span><p>Quit</p></div>
+              </div>
+            </div>
+
+            <div class="help-section">
+              <h3 class="section-title">Extra</h3>
+              <div class="shortcuts-list">
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">B</span></span><p>Spawn bomber</p></div>
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">P</span></span><p>Spawn spider</p></div>
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">D</span></span><p>Toggle demo mode</p></div>
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">I</span></span><p>Toggle invincibility</p></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="help-section">
+            <h3 class="section-title">Debug</h3>
+            <div class="help-row">
+              <div class="shortcuts-list">
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">C</span></span><p>Toggle color mode</p></div>
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">S</span></span><p>Toggle sound</p></div>
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">M</span></span><p>Mask screen</p></div>
+              </div>
+              <div class="shortcuts-list">
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">R</span></span><p>Redraw screen</p></div>
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">A</span></span><p>Speed up</p></div>
+                <div class="shortcut"><span class="keys-combo"><span class="keycap">Alt</span><span class="plus">+</span><span class="keycap">Z</span></span><p>Slow down</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script>
      const params = new URLSearchParams(window.location.search);
